@@ -2,36 +2,6 @@
 from hex_to_str import hex_to_str
 import argparse
 
-freqs = {
-	'a': 651738,
-	'b': 124248,
-	'c': 217339,
-	'd': 349835,
-	'e': 1041442,
-	'f': 197881,
-	'g': 158610,
-	'h': 492888,
-	'i': 558094,
-	'j': 9033,
-	'k': 50529,
-	'l': 331490,
-	'm': 202124,
-	'n': 564513,
-	'o': 596302,
-	'p': 137645,
-	'q': 8606,
-	'r': 497563,
-	's': 515760,
-	't': 729357,
-	'u': 225134,
-	'v': 82903,
-	'w': 171272,
-	'x': 13692,
-	'y': 145984,
-	'z': 7836,
-	' ': 1918182
-}
-
 # XOR a string with a single character
 def str_xor_c(instr, char):
 	# RECEIVES: Ascii string & ascii character
@@ -42,6 +12,35 @@ def str_xor_c(instr, char):
 def find_xor_key(xorstr):
 	# RECEIVES: String of XOR'ed characters in hex
 	# RETURNS: Decimal value of the character the string was XOR'ed with
+	freqs = {
+		'a': 651738,
+		'b': 124248,
+		'c': 217339,
+		'd': 349835,
+		'e': 1041442,
+		'f': 197881,
+		'g': 158610,
+		'h': 492888,
+		'i': 558094,
+		'j': 9033,
+		'k': 50529,
+		'l': 331490,
+		'm': 202124,
+		'n': 564513,
+		'o': 596302,
+		'p': 137645,
+		'q': 8606,
+		'r': 497563,
+		's': 515760,
+		't': 729357,
+		'u': 225134,
+		'v': 82903,
+		'w': 171272,
+		'x': 13692,
+		'y': 145984,
+		'z': 7836,
+		' ': 1918182
+	}
 	string = hex_to_str(xorstr)
 	
 	highscore = 0
