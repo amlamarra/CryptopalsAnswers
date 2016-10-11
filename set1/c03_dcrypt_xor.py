@@ -4,15 +4,13 @@ import argparse
 
 # XOR a string with a single character
 def str_xor_c(instr, char):
-	# RECEIVES: Ascii string & ascii character
+	# ACCEPTS: Ascii string & ascii character
 	# RETURNS: Ascii string XOR'ed with the character
 	return "".join([chr(ord(instr[c])^ord(char)) for c in range(len(instr))])
 
-# Find the key a string was XOR'ed with
-def find_xor_key(xorstr):
-	# RECEIVES: String of XOR'ed characters in hex
-	# RETURNS: Decimal value of the character the string was XOR'ed with
-	
+def freq_score(instr):
+	# ACCEPTS: Ascii string
+	# RETURNS: Integer of the frequency score
 	freqs = { # www.data-compression.com/english.html
 		'a': 651738,
 		'b': 124248,
@@ -42,20 +40,20 @@ def find_xor_key(xorstr):
 		'z': 7836,
 		' ': 1918182
 	}
-	string = hex_to_str(xorstr)
-	
-	highscore = 0
-	for i in range(256):
-		score = 0
-		decrypted = str_xor_c(string, chr(i))
-		for c in decrypted:
+	score = 0
+	for c in instr:
 			if c.lower() in freqs:
 				score += freqs[c.lower()]
-		if score > highscore:
-			highscore = score
-			key = i
+	return score
+
+# Find the key a string was XOR'ed with
+def find_xor_key(xorstr):
+	# ACCEPTS: String of XOR'ed characters in hex
+	# RETURNS: Decimal value of the character the string was XOR'ed with
+	string = hex_to_str(xorstr)
+	scores = [freq_score(str_xor_c(string, chr(i))) for i in range(256)]
 	
-	return key
+	return scores.index(max(scores))
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description=
@@ -69,4 +67,4 @@ if __name__ == "__main__":
 		code = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 	key = find_xor_key(code)
 	print("Key = {}".format(key))
-	print("String = {}".format(str_xor_c(hex_to_str(code), chr(key))))
+	print("String = {}".format(str_xor_c(hex_to_str(code), chr(key)).encode('utf-8')))
