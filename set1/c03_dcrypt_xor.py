@@ -12,7 +12,8 @@ def str_xor_c(instr, char):
 def find_xor_key(xorstr):
 	# RECEIVES: String of XOR'ed characters in hex
 	# RETURNS: Decimal value of the character the string was XOR'ed with
-	freqs = {
+	
+	freqs = { # www.data-compression.com/english.html
 		'a': 651738,
 		'b': 124248,
 		'c': 217339,
