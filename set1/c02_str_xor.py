@@ -1,8 +1,16 @@
 #!/usr/bin/python3
 
-# Takes 2 strings of equal length, XORs them, and returns them
+# XOR two hex strings
 def str_xor(str1, str2):
-    return str(hex(int(str1,16) ^ int(str2,16)))[2:]
+	# ACCEPTS: Two hex strings of equal length
+	# RETURNS: One hex string
+	string = str(hex(int(str1,16) ^ int(str2,16)))[2:]
+	
+	# If the first hex character starts with 0, it would be left off
+	# This will ensure it's put back on
+	if len(string) % 2:
+		string = "0" + string
+	return string
 
 if __name__ == "__main__":
 	import argparse
