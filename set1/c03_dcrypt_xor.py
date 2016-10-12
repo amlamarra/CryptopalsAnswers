@@ -47,13 +47,14 @@ def freq_score(instr):
 	return score
 
 # Find the key a string was XOR'ed with
-def find_xor_key(xorstr):
+def dcrypt_xor(xorstr):
 	# ACCEPTS: String of XOR'ed characters in hex
-	# RETURNS: Decimal value of the character the string was XOR'ed with
+	# RETURNS: A tuple of the key and the decrypted string
+		# The key is the decimal value of the character the string was XOR'ed with
 	string = hex_to_str(xorstr)
 	scores = [freq_score(str_xor_c(string, chr(i))) for i in range(256)]
-	
-	return scores.index(max(scores))
+	key = scores.index(max(scores))
+	return (key, str_xor_c(string, chr(key)))
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description=
@@ -65,6 +66,6 @@ if __name__ == "__main__":
 		code = args.hex
 	else:
 		code = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-	key = find_xor_key(code)
-	print("Key = {}".format(key))
-	print("String = {}".format(str_xor_c(hex_to_str(code), chr(key)).encode('utf-8')))
+	answer = dcrypt_xor(code)
+	print("Key = {}".format(answer[0]))
+	print("String = {}".format(answer[1].encode('utf-8')))
