@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-# Takes a string of hex characters (must be an even number)
-# and returns a string of base64 characters
+# Convert hex string to base64
 def hex_to_base64(instr):
+	# ACCEPTS: Hex string (even number of characters)
+	# RETURNS: Base64 string
 	CODESET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 	
 	i = 0
@@ -42,4 +43,8 @@ if __name__ == "__main__":
 	else:
 		hexstr="49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
 	
+	# print("Input length: {}".format(len(hexstr)))
+	# base64len = int( (len(hexstr)/3) * 2 ) + ( ((len(hexstr)/2) % 3) * 4 > 0 )
+	# print("Number of base64 characters required: {}".format(base64len))
+	# print("Solution length should be: {}".format(len(solution)))
 	print(hex_to_base64(hexstr))
