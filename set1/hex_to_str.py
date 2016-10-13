@@ -10,10 +10,10 @@ if __name__ == "__main__":
 	
 	parser = argparse.ArgumentParser(
 		description="Converts hex characters to an ascii string")
-	parser.add_argument("string", nargs="?", help="The hex string")
+	parser.add_argument("hex", nargs="?", help="The hex string")
 	args = parser.parse_args()
-	if args.string:
-		instr = args.string
+	if args.hex:
+		instr = args.hex
 	else:
 		instr = input("Enter the hex: ")
 	
