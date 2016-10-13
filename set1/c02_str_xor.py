@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
 # XOR two hex strings
-def str_xor(str1, str2):
+def str_xor(hex1, hex2):
 	# ACCEPTS: Two hex strings of equal length
 	# RETURNS: One hex string
-	string = str(hex(int(str1,16) ^ int(str2,16)))[2:]
+	string = str(hex(int(hex1,16) ^ int(hex2,16)))[2:]
 	
-	# If the first hex character starts with 0, it would be left off
-	# This will ensure it's put back on
-	if len(string) % 2:
-		string = "0" + string
+	# If the resulting hex string is supposed to be prefixed with zeros,
+	# normally, they'd be left off. This will ensure it's put back on.
+	string = "0"*(len(hex1) - len(string)) + string
+	
 	return string
 
 if __name__ == "__main__":
