@@ -68,4 +68,4 @@ if __name__ == "__main__":
 		code = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 	answer = dcrypt_xor(code)
 	print("Key = {}".format(answer[0]))
-	print("String = {}".format(answer[1].encode('utf-8')))
+	print("String = {}".format(answer[1].encode()))
