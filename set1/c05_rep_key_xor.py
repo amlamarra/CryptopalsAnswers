@@ -10,8 +10,15 @@ def str_xor_key(msg, key):
     RETURNS: a hex string
     """
     
-    msg = str_to_hex(msg)
-    key = str_to_hex(key)
+    if type(msg) is str:
+        msg = str_to_hex(msg)
+    elif type(msg) is bytes:
+        msg = byte_to_hex(msg)
+    
+    if type(key) is str:
+        key = str_to_hex(key)
+    elif type(key) is bytes:
+        key = byte_to_hex(key)
     
     mlen = len(msg)
     klen = len(key)
