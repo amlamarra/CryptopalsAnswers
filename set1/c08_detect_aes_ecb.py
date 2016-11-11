@@ -12,12 +12,12 @@ for line in lines:
 
 for block in blocks:
     seen = set()
-    for i in range(len(block)):
-        if block[i] in seen:
-            print("Index: [{}][{}]  |  Duplicate: {}".format(blocks.index(block), i, block[i]))
+    for i, b in enumerate(block):
+        if b in seen:
+            print("Index: [{}][{}]  |  Duplicate: {}".format(blocks.index(block), i, b))
             found = blocks.index(block)
         else:
-            seen.add(block[i])
+            seen.add(b)
 
 print("\nThis ciphertext was likely encrypted with AES in ECB mode:")
 print(lines[found])
