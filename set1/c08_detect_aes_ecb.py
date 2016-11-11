@@ -4,7 +4,7 @@ with open("08.txt") as f:
     content = f.read()
 
 lines = content.split("\n")
-blocks = [[] for i in range(len(lines))]
+blocks = [[] for i in lines]
 
 for line in lines:
     for i in range(0, len(line), 32):
