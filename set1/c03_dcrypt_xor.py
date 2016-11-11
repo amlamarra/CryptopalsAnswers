@@ -4,13 +4,15 @@ import argparse
 from Crypto.Util.strxor import strxor_c
 
 
-def str_xor_c(instr, char):
+def str_xor_c(instr, character):
     """ XOR a string with a single character
     ACCEPTS: Ascii string & ascii character
     RETURNS: Ascii string XOR'ed with the character
     """
     
-    return "".join([chr(instr[c] ^ ord(char)) for c in range(len(instr))])
+    char = ord(character)
+    
+    return "".join([chr(c ^ char) for c in instr])
 
 
 def freq_score(instr):
@@ -53,6 +55,7 @@ def freq_score(instr):
     for c in instr.lower():
             if c in freqs:
                 score += freqs[c]
+    
     return score
 
 
