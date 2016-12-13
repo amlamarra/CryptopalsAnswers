@@ -2,21 +2,22 @@
 import argparse
 
 
-def pad(text, bsize):
-    """ Pads the given text so it's a multiple of the given block size.
-    ACCEPTS: One string & One integer (< 256)
-    RETURNS: A byte string
+def pad(content, bsize):
+    """ Pads the given content so it's a multiple of the given block size.
+    The block size is in bytes
+    ACCEPTS: One byte string & One integer (< 256)
+    RETURNS: One byte string
     """
     
     if bsize >= 256:
         raise NameError("The supplied block size is too high.")
     
     pad_size = 0
-    if len(text) % bsize:
-        pad_size = bsize - (len(text) % bsize)
-    text += chr(pad_size) * pad_size
+    if len(content) % bsize:
+        pad_size = bsize - (len(content) % bsize)
+    content += (chr(pad_size) * pad_size).encode()
     
-    return text.encode()
+    return content
 
 
 if __name__ == "__main__":
