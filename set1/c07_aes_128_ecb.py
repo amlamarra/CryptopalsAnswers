@@ -9,7 +9,7 @@ import base64
 
 def encrypt(message, passphrase):
     """ Encrypts a message in AES ECB mode with a given key
-    ACCEPTS: Two strings, the plaintext message and the key
+    ACCEPTS: Two byte strings, the plaintext message and the key
     RETURNS: A bytes string of base64 encoded ciphertext
     """
     
