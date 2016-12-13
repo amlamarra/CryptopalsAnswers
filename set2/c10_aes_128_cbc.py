@@ -22,7 +22,7 @@ import c09_pkcs7_padding
 
 def cbc_encrypt(plain_text, key, initialization_vector):
     """ Encrypts a plaintext message using AES 128 CBC mode
-    ACCEPTS: Two strings (text & key) & one byte string (IV)
+    ACCEPTS: Three byte strings (plain text, key & IV)
     RETURNS: Base64 encoded string
     """
     
