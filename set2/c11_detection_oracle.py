@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import os
 import sys
-from random import randrange
+import base64
+from random import randrange, randint
 sys.path.append(os.path.abspath("../set1"))
 from c07_aes_128_ecb import * # Imports ecb_encrypt & ecb_decrypt
 import c09_pkcs7_padding
@@ -24,24 +25,47 @@ def encryption_oracle(instr):
     RETURNS: Base64 encoded string
     """
     
-    pretext = gen_rand(randrange(5, 11))
-    posttext = gen_rand(randrange(5, 11))
+    pretext = gen_rand(randint(5, 10))
+    posttext = gen_rand(randint(5, 10))
+    
     msg = pretext + bytes(instr.encode()) + posttext
     msg = c09_pkcs7_padding.pad(msg, 16)
     
-    mode = randrange(2)
     key = gen_rand(16)
-    if mode:
+    if randrange(2):
         IV = gen_rand(16)
+        print("Encrypting in CBC\n")
         encrypted = cbc_encrypt(msg, key, IV)
     else:
+        print("Encrypting in ECB\n")
         encrypted = ecb_encrypt(msg, key)
-        
+    
     return encrypted
 
 
+def detection_oracle(encrypted):
+    """ Detects which encryption mode (ECB or CBC) is happening
+    ACCEPTS: A string of base64 characters
+    RETURNS: The string "ECB" or "CBC"
+    """
+    encrypted_msg = base64.b64decode(encrypted)
+    
+    for init in range(16):
+        blocks = [encrypted_msg[i+init:i+init+16] for i in range(0, len(encrypted_msg), 16)]
+        
+        seen = set()
+        for block in blocks:
+            if block in seen:
+                print("Duplicate block: {}".format(block))
+                return "ECB"
+            else:
+                seen.add(block)
+            
+    return "CBC"
+
+
 if __name__=="__main__":
-    text = "This is a plain text message."
+    text = "A" * 48
     encrypted = encryption_oracle(text)
-    print("Length of encrypted message: {}".format(len(encrypted)))
-    print(encrypted)
+    
+    print("Detected {} mode".format(detection_oracle(encrypted)))
