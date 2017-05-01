@@ -44,9 +44,9 @@ def hex_to_byte(hex_str):
     Converts a string of hex characters to a string of byte characters.
     """
     
-    byte_str = b""
+    #byte_str = ""
+    #for i in range(0, len(hex_str), 2):
+    #    byte_str += chr(int(hex_str[i:i+2], 16))
+    #return byte_str.encode()
     
-    for i in range(0, len(hex_str), 2):
-        byte_str += chr(int(hex_str[i:i+2], 16)).encode()
-
-    return byte_str
+    return bytes(bytearray.fromhex(hex_str))
