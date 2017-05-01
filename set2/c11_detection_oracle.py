@@ -2,11 +2,11 @@
 import os
 import sys
 import base64
-from random import randrange, randint
+from random import randint
 sys.path.append(os.path.abspath("../set1"))
-from c07_aes_128_ecb import * # Imports ecb_encrypt & ecb_decrypt
+from c07_aes_128_ecb import *  # Imports ecb_encrypt & ecb_decrypt
 import c09_pkcs7_padding
-from c10_aes_128_cbc import * # Imports cbc_encrypt & cbc_decrypt
+from c10_aes_128_cbc import *  # Imports cbc_encrypt & cbc_decrypt
 
 
 def gen_rand(length):
@@ -19,8 +19,8 @@ def gen_rand(length):
 
 
 def encryption_oracle(instr):
-    """ Encrypts randomly, between ECB & CBC, under a random key with random
-    padding both before and after the plaintext.
+    """ Encrypts randomly, between ECB & CBC, under a random key with
+    random padding both before and after the plaintext.
     ACCEPTS: One string
     RETURNS: Base64 encoded string
     """
@@ -32,7 +32,14 @@ def encryption_oracle(instr):
     msg = c09_pkcs7_padding.pad(msg, 16)
     
     key = gen_rand(16)
-    if randrange(2):
+    """ The challenge states to "use rand(2) to decide which to use"
+    when deciding to encrypt under ECB or CBC. The pyopenssl module
+    docs (https://pyopenssl.readthedocs.io/en/stable/api/rand.html)
+    says, "Functions from this module shouldn’t be used. Use urandom
+    instead." So this will get a random byte from urandom & see if it's
+    decimal equivalent is even or odd.
+    """
+    if int.from_bytes(os.urandom(1), byteorder='big') % 2:
         IV = gen_rand(16)
         print("Encrypting in CBC\n")
         encrypted = cbc_encrypt(msg, key, IV)
@@ -48,10 +55,12 @@ def detection_oracle(encrypted):
     ACCEPTS: A string of base64 characters
     RETURNS: The string "ECB" or "CBC"
     """
+    
     encrypted_msg = base64.b64decode(encrypted)
     
     for init in range(16):
-        blocks = [encrypted_msg[i+init:i+init+16] for i in range(0, len(encrypted_msg), 16)]
+        blocks = [encrypted_msg[i+init:i+init+16]
+                  for i in range(0, len(encrypted_msg), 16)]
         
         seen = set()
         for block in blocks:
