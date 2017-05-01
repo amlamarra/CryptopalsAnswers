@@ -37,4 +37,4 @@ if __name__ == "__main__":
     else:
         bsize = 20
     
-    print(pad(text, bsize))
+    print(pad(text.encode(), bsize))
