@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Implement AES 128 CBC
 Initialization Vector will be 16 null bytes (\x00\x00\x00 ...)
 Key = "YELLOW SUBMARINE"
@@ -13,11 +13,11 @@ $ openssl enc -aes-128-cbc -d -base64 -in out.txt
 import base64
 import sys
 import os
+import c09_pkcs7_padding
 sys.path.append(os.path.abspath("../set1"))
 from c07_aes_128_ecb import * # Imports ecb_encrypt & ecb_decrypt
 from c02_str_xor import str_xor
 from conversions import * # str_to_hex, hex_to_str, byte_to_hex, hex_to_byte
-import c09_pkcs7_padding
 
 
 def cbc_encrypt(plain_text, key, initialization_vector):

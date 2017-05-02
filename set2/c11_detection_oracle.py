@@ -1,12 +1,12 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3
 import os
 import sys
 import base64
 from random import randint
+from c10_aes_128_cbc import *  # Imports cbc_encrypt & cbc_decrypt
 sys.path.append(os.path.abspath("../set1"))
 from c07_aes_128_ecb import *  # Imports ecb_encrypt & ecb_decrypt
 import c09_pkcs7_padding
-from c10_aes_128_cbc import *  # Imports cbc_encrypt & cbc_decrypt
 
 
 def gen_rand(length):
