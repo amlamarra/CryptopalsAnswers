@@ -65,7 +65,7 @@ def detection_oracle(encrypted):
         seen = set()
         for block in blocks:
             if block in seen:
-                print("Duplicate block: {}".format(block))
+                #print("Duplicate block: {}".format(block))
                 return "ECB"
             else:
                 seen.add(block)

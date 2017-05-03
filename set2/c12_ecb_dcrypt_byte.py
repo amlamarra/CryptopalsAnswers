@@ -6,9 +6,12 @@ import random
 import c09_pkcs7_padding
 from c11_detection_oracle import detection_oracle
 sys.path.append(os.path.abspath("../set1"))
-from c07_aes_128_ecb import *  # Imports ecb_encrypt & ecb_decrypt
+from c07_aes_128_ecb import ecb_encrypt
 
-def ecb_encryption_oracle(instr, key):
+
+# KEY = "YELLOW SUBMARINE"
+
+def encrypt_oracle_hidden(instr, key):
     """ Encrypts in ECB mode under a random key with random padding
     both before and after the plaintext.
     ACCEPTS: One string & one byte string
@@ -25,32 +28,55 @@ def ecb_encryption_oracle(instr, key):
     return ecb_encrypt(msg, key)
 
 
-def detect_block_size():
+def find_block_size(key):
     """ Finds the block size the encryption oracle is using
     ACCEPTS: Nothing
     RETURNS: The block size as an integer
     """
     
     prev = ""
-    encrypted = ecb_encryption_oracle("A", "YELLOW SUBMARINE".encode())
+    encrypted = encrypt_oracle_hidden("A", key)
     i = 1
-    while prev[:5] != encrypted[:5]:
+    # Just checking the first 4 characters
+    while prev[:4] != encrypted[:4]:
         prev = encrypted
         i += 1
-        encrypted = ecb_encryption_oracle("A"*i, "YELLOW SUBMARINE".encode())
-        print(encrypted + "\n")
+        encrypted = encrypt_oracle_hidden("A"*i, key)
+        #print(encrypted + "\n")
     
     return i - 1
 
-def break_ecb():
+
+def break_ecb(key):
     """ Attempt to decrypt the unknown string, one byte at a time
     ACCEPTS: 
     RETURNS: 
     """
     
-    block_size = detect_block_size()
-    
+    # Find the block size
+    block_size = find_block_size(key)
     print("The block size is {}".format(block_size))
+    
+    # Generate encrypted text with the same letter twice that of block_size
+    # If ECB mode is being used, then the 2 blocks should be identical
+    encrypted = encrypt_oracle_hidden("A" * (block_size*2), key)
+    print("Mode: {}".format(detection_oracle(encrypted)))
+    
+    # Save the first block with all A's & the first character of 'hidden'
+    block1 = base64.b64decode(encrypt_oracle_hidden(
+        "A" * (block_size-1), key))[:block_size]
+    
+    # Create a dictionary of first blocks with every possible last byte
+    dictionary = [base64.b64decode(encrypt_oracle_hidden("A" * (block_size-1)
+                  + chr(i), key))[:block_size] for i in range(128)]
+    
+    if block1 in dictionary:
+        index = dictionary.index(block1)
+        print("The first character is: {}".format(chr(index)))
+    else:
+        print("We ain't found shit...\nDictionary dump:")
+        for item in dictionary:
+            print(item)
 
 
 if __name__ == "__main__":
@@ -64,5 +90,5 @@ if __name__ == "__main__":
 
     #with open("msg.txt") as f:
     #    msg = f.read()
-    #print(ecb_encryption_oracle(msg, key))
-    break_ecb()
+    #print(encrypt_oracle_hidden(msg, key))
+    break_ecb(key)
