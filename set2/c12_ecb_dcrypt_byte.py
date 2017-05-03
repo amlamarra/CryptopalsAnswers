@@ -9,8 +9,6 @@ sys.path.append(os.path.abspath("../set1"))
 from c07_aes_128_ecb import ecb_encrypt
 
 
-# KEY = "YELLOW SUBMARINE"
-
 def encrypt_oracle_hidden(instr, secret = b""):
     """ Encrypts a message with a random key. If a secret message (byte
     string) is supplied, that is appended to the end of the message.
@@ -64,7 +62,8 @@ def break_ecb(secret):
     # Generate encrypted text with the same letter twice that of block_size
     # If ECB mode is being used, then the 2 blocks should be identical
     encrypted = encrypt_oracle_hidden("A" * (block_size*2))
-    print("Mode: {}".format(detection_oracle(encrypted)))
+    if detection_oracle(encrypted) != "ECB":
+        raise Exception("Not using ECB")
     
     # Create a dictionary of first blocks with every possible last byte
     dictionary = [base64.b64decode(encrypt_oracle_hidden("A" * (block_size-1)
@@ -85,6 +84,7 @@ def break_ecb(secret):
             print("A byte was not found in the dictionary")
     
     return dcryptd_msg
+
 
 if __name__ == "__main__":
     
