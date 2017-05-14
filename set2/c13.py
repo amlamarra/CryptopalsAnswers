@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import re
 
 
 def parser(instr):
@@ -7,8 +6,18 @@ def parser(instr):
     ACCEPTS: One string
     RETURNS: One dict
     """
-    
-    return {s.split("=")[0]:s.split("=")[1] for s in instr.split("&")}
+
+    return {s.split("=")[0]: s.split("=")[1] for s in instr.split("&")}
+
+
+def encode_profile(profile):
+    """ Encodes a given profile in URL format
+    ACCEPTS: One dict (the profile)
+    RETURNS: One string (the URL format)
+    """
+
+    ret = ""
+
 
 
 def profile_for(email):
@@ -16,17 +25,15 @@ def profile_for(email):
     ACCEPTS: One string (email address)
     RETURNS: One dict
     """
-    
-    email = email.replace("&","").replace("=","")
-    
+
+    email = email.replace("&", "").replace("=", "")
+
     print("Safe: {}".format(email))
+    profile = parser("email={}&uid=10&role=user".format(email))
+    encode_profile(profile)
 
 
 if __name__ == "__main__":
-    
+
     obj = parser("foo=bar&baz=qux&zap=zazzle")
     print(obj)
-    #profile_for("andrew@lamarra.com")
-    while True:
-        email = input("Validate email: ")
-        profile_for(email)
