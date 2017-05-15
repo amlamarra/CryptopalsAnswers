@@ -2,9 +2,9 @@
 
 
 def parser(instr):
-    """ Parses URL parameters and converts to a dict object
+    """ Parses URL parameters and converts to a dictionary object
     ACCEPTS: One string
-    RETURNS: One dict
+    RETURNS: One dictionary
     """
 
     return {s.split("=")[0]: s.split("=")[1] for s in instr.split("&")}
@@ -12,7 +12,7 @@ def parser(instr):
 
 def encode_profile(profile):
     """ Encodes a given profile in URL format
-    ACCEPTS: One dict (the profile)
+    ACCEPTS: One dictionary (the profile)
     RETURNS: One string (the URL format)
     """
 
@@ -23,7 +23,7 @@ def encode_profile(profile):
 def profile_for(email):
     """ Provides a profile for a supplied email address
     ACCEPTS: One string (email address)
-    RETURNS: One dict
+    RETURNS: One dictionary
     """
 
     email = email.replace("&", "").replace("=", "")
